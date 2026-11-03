@@ -1,0 +1,83 @@
+@media (max-width: 62.5rem) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+  }
+  .sidebar:not(.sidebar--closed) {
+    transform: translateX(0);
+  }
+  .sidebar--closed {
+    transform: translateX(-100%);
+  }
+  .topbar {
+    left: 0;
+    justify-content: space-between;
+  }
+  .mobile-toggle {
+    display: block;
+    font-size: 21px;
+  }
+  .dashboard,
+  .basic-page {
+    margin-left: 0;
+    padding: 4.5rem var(--content-gutter) 1.5rem;
+  }
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .middle-grid,
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 32.5rem) {
+  .dashboard-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .dashboard h1 {
+    font-size: 23px;
+  }
+  .date-filter {
+    align-self: stretch;
+    justify-content: center;
+  }
+  .stat-card {
+    padding: 14px 11px;
+    gap: 9px;
+  }
+  .stat-card strong {
+    font-size: 20px;
+  }
+  .donut-wrap {
+    justify-content: space-between;
+  }
+  .donut {
+    width: 125px;
+    height: 125px;
+  }
+  .donut:after {
+    width: 76px;
+    height: 76px;
+  }
+  .region-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .fake-map {
+    min-height: 160px;
+  }
+  .region-list {
+    width: 100%;
+    padding: 0;
+  }
+  .region-list > div {
+    height: 25px;
+  }
+  .panel {
+    padding: 13px 10px;
+    overflow: hidden;
+  }
+}
