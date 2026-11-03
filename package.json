@@ -1,0 +1,126 @@
+{
+  "name": "jecheon-kiosk",
+  "private": true,
+  "description": "Jecheon Kiosk",
+  "author": "orhyn",
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
+  "homepage": "./",
+  "main": "electron/main.mjs",
+  "build": {
+    "appId": "com.jecheon.kiosk",
+    "productName": "JecheonKiosk",
+    "files": [
+      "dist/**",
+      "electron/**",
+      "preload/**",
+      "node_modules/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "env.xml",
+        "to": "env.xml"
+      }
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/icon.ico"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "public/icon.icns"
+    },
+    "linux": {
+      "icon": "public/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "제천 키오스크"
+    }
+  },
+  "scripts": {
+    "clean": "rimraf dist out release",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "preview": "vite preview",
+    "dev": "vite",
+    "dev-electron": "npm run format && concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron .\"",
+    "build:web": "npm run clean && tsc -b && vite build",
+    "start": "npm run build && electron .",
+    "format": "prettier --write .",
+    "release": "npm run build && electron-builder --win --x64 --config.directories.output=release/win",
+    "release:win": "npm run build && electron-builder --win --x64 --config.directories.output=release/win",
+    "release:mac": "npm run build && electron-builder --mac --config.directories.output=release/mac"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/joy": "^5.0.0-beta.52",
+    "@mui/material": "^7.1.0",
+    "@mui/system": "^7.1.0",
+    "@tanstack/react-query": "^5.80.5",
+    "@tanstack/react-query-devtools": "^5.80.5",
+    "hangul-js": "^0.2.6",
+    "lodash": "^4.17.21",
+    "lodash.isequal": "^4.5.0",
+    "lodash.throttle": "^4.1.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.1",
+    "react-simple-keyboard": "^3.8.80",
+    "swiper": "^11.2.8",
+    "xml2js": "^0.6.2",
+    "xmldom": "^0.6.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@types/lodash.isequal": "^4.5.8",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.2",
+    "@types/swiper": "^5.4.3",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^36.3.1",
+    "electron-builder": "^26.0.12",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5",
+    "wait-on": "^8.0.3"
+  }
+}
