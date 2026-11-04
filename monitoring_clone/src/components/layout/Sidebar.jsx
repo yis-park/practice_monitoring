@@ -1,58 +1,153 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FiChevronDown,
+  FiChevronUp,
   FiClipboard,
   FiGrid,
   FiSettings,
   FiShield,
   FiSpeaker,
 } from "react-icons/fi";
+import {
+  Box,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { getNavigationMenu } from "../../api/navigationApi";
 
-const menuGroups = [
-  { label: "민원 현황", icon: FiGrid, to: "/" },
-  {
-    label: "민원 관리",
-    icon: FiClipboard,
-    to: "/complaints",
-    children: [["민원 목록", "/complaints"], ["민원 접수", "/complaints/create"], ["민원 지도", "/complaints/map"]],
-  },
-  {
-    label: "처리 관리",
-    icon: FiShield,
-    to: "/management/status",
-    children: [["처리 현황", "/management/status"], ["담당 관리", "/management/answer"], ["처리 이력", "/management/history"]],
-  },
-  { label: "공지사항", icon: FiSpeaker, to: "/notices" },
-  { label: "시스템 설정", icon: FiSettings, to: "/settings" },
-];
+const iconMap = {
+  grid: FiGrid,
+  clipboard: FiClipboard,
+  shield: FiShield,
+  speaker: FiSpeaker,
+  settings: FiSettings,
+};
 
-const Sidebar = ({ isOpen }) => (
-  <aside className={`sidebar ${isOpen ? "" : "sidebar--closed"}`}>
-    <div className="brand">
-      <span className="brand-mark">◒</span>
-      <span>환경 민원<br />관리 시스템</span>
-    </div>
-    <nav className="sidebar-nav" aria-label="주 메뉴">
-      {menuGroups.map(({ label, icon: Icon, to, children }) => (
-        <div className="nav-group" key={label}>
-          <NavLink
-            className={({ isActive }) => `nav-item ${isActive ? "nav-item--active" : ""}`}
+const SidebarLink = ({
+  to,
+  end = false,
+  onClick,
+  children,
+  className = "",
+  activeClassName = "active",
+}) => (
+  <ListItem disablePadding>
+    <NavLink to={to} end={end} onClick={onClick} className="sidebar-link">
+      {({ isActive }) => (
+        <ListItemButton
+          component="span"
+          className={`${className} ${isActive ? activeClassName : ""}`}>
+          {children}
+        </ListItemButton>
+      )}
+    </NavLink>
+  </ListItem>
+);
+
+const MenuList = ({
+  menuGroups,
+  expandedMenus,
+  handleMenuClick,
+  onNavigate,
+}) => (
+  <List className="sidebar-nav" aria-label="주 메뉴">
+    {menuGroups.map(({ label, icon, to, children }) => {
+      const Icon = iconMap[icon];
+
+      return (
+        <Box className="nav-group" key={label}>
+          <SidebarLink
             to={to}
             end={to === "/"}
-          >
-            <Icon />
-            <span>{label}</span>
-            {children && <FiChevronDown className="nav-arrow" />}
-          </NavLink>
-          {children && (
-            <div className="nav-children">
-              {children.map(([child, childPath]) => <NavLink to={childPath} key={child}>{child}</NavLink>)}
-            </div>
+            className={`nav-item ${children ? "nav-item--group" : ""}`}
+            activeClassName={children ? "" : "nav-item--active"}
+            onClick={() => handleMenuClick(label, Boolean(children))}>
+            <ListItemIcon>
+              <Icon />
+            </ListItemIcon>
+            <ListItemText primary={label} />
+            {children &&
+              (expandedMenus[label] ? (
+                <FiChevronUp className="nav-arrow" />
+              ) : (
+                <FiChevronDown className="nav-arrow" />
+              ))}
+          </SidebarLink>
+          {children && expandedMenus[label] && (
+            <List className="nav-children">
+              {children.map(({ label: childLabel, to: childPath }) => (
+                <SidebarLink
+                  to={childPath}
+                  end
+                  key={childPath}
+                  className="nav-child-item"
+                  activeClassName="active"
+                  onClick={onNavigate}>
+                  <ListItemText primary={childLabel} />
+                </SidebarLink>
+              ))}
+            </List>
           )}
-        </div>
-      ))}
-    </nav>
-  </aside>
+        </Box>
+      );
+    })}
+  </List>
 );
+
+const Sidebar = ({ mobileMenuOpen, onMobileNavigate }) => {
+  const menuGroups = getNavigationMenu();
+  const [expandedMenus, setExpandedMenus] = useState(() =>
+    menuGroups.reduce((expanded, menu) => {
+      if (menu.children) expanded[menu.label] = true;
+      return expanded;
+    }, {}),
+  );
+  const toggleMenu = (label) => {
+    setExpandedMenus((current) => ({ ...current, [label]: !current[label] }));
+  };
+  const handleMenuClick = (label, hasChildren) => {
+    if (hasChildren) {
+      toggleMenu(label);
+    }
+    onMobileNavigate?.();
+  };
+
+  return (
+    <>
+      <Drawer className="sidebar-drawer" variant="permanent" anchor="left">
+        <NavLink to="/" className="brand">
+          <span className="brand-mark">◒</span>
+          <span>
+            환경 민원
+            <br />
+            관리 시스템
+          </span>
+        </NavLink>
+        <Divider />
+        <MenuList
+          menuGroups={menuGroups}
+          expandedMenus={expandedMenus}
+          handleMenuClick={handleMenuClick}
+        />
+      </Drawer>
+      {mobileMenuOpen && (
+        <Box className="mobile-menu">
+          <MenuList
+            menuGroups={menuGroups}
+            expandedMenus={expandedMenus}
+            handleMenuClick={handleMenuClick}
+            onNavigate={onMobileNavigate}
+          />
+        </Box>
+      )}
+    </>
+  );
+};
 
 export default Sidebar;

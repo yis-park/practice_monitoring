@@ -1,24 +1,46 @@
 @media (max-width: 62.5rem) {
-  .sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.2s;
-  }
-  .sidebar:not(.sidebar--closed) {
-    transform: translateX(0);
-  }
-  .sidebar--closed {
-    transform: translateX(-100%);
-  }
   .topbar {
     left: 0;
     justify-content: space-between;
   }
-  .mobile-toggle {
-    display: block;
-    font-size: 21px;
+  .sidebar-drawer {
+    display: none;
+  }
+  .mobile-menu-button {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0;
+    color: #52617a;
+    background: transparent;
+    font-size: 1.35rem;
+    cursor: pointer;
+  }
+  .mobile-menu {
+    position: fixed;
+    z-index: 6;
+    top: 40px;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    color: #dce5f4;
+    background: linear-gradient(180deg, #1d3557, #16273f);
+    box-shadow: 0 8px 18px rgba(19, 41, 74, 0.25);
+  }
+  .mobile-menu .sidebar-nav {
+    padding: 0.75rem;
+  }
+  .mobile-menu .nav-item {
+    min-height: 2.75rem;
+  }
+  .mobile-menu .nav-child-item {
+    min-height: 2.25rem;
   }
   .dashboard,
   .basic-page {
+    width: 100%;
     margin-left: 0;
     padding: 4.5rem var(--content-gutter) 1.5rem;
   }
@@ -32,6 +54,20 @@
 }
 
 @media (max-width: 32.5rem) {
+  :root {
+    --content-gutter: 0.75rem;
+  }
+  .topbar {
+    height: 3.25rem;
+  }
+  .mobile-menu {
+    top: 3.25rem;
+    max-height: calc(100vh - 3.25rem);
+  }
+  .dashboard,
+  .basic-page {
+    padding-top: 4.25rem;
+  }
   .dashboard-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -51,33 +87,22 @@
   .stat-card strong {
     font-size: 20px;
   }
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
   .donut-wrap {
     justify-content: space-between;
   }
-  .donut {
-    width: 125px;
-    height: 125px;
-  }
-  .donut:after {
-    width: 76px;
-    height: 76px;
-  }
-  .region-content {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .fake-map {
-    min-height: 160px;
-  }
-  .region-list {
-    width: 100%;
-    padding: 0;
-  }
-  .region-list > div {
-    height: 25px;
+  .highchart--donut {
+    width: 55%;
+    min-width: 140px;
   }
   .panel {
     padding: 13px 10px;
     overflow: hidden;
+  }
+  .bottom-grid table {
+    display: block;
+    overflow-x: auto;
   }
 }

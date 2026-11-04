@@ -15,17 +15,18 @@ import NoticeList from "./pages/notices/NoticeList";
 import Settings from "./pages/settings/Settings";
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(
-    () => window.matchMedia("(min-width: 62.5rem)").matches
-  );
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <BrowserRouter>
       <section id="center">
-        <Sidebar isOpen={isSidebarOpen} />
+        <Sidebar
+          mobileMenuOpen={mobileMenuOpen}
+          onMobileNavigate={() => setMobileMenuOpen(false)}
+        />
         <Header
-          isSidebarOpen={isSidebarOpen}
-          onToggleSidebar={() => setIsSidebarOpen((open) => !open)}
+          mobileMenuOpen={mobileMenuOpen}
+          onToggleMobileMenu={() => setMobileMenuOpen((open) => !open)}
         />
         <Routes>
           <Route path="/" element={<Dashboard />} />

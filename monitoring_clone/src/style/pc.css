@@ -96,13 +96,14 @@
   --sidebar-width: clamp(12rem, 16vw, 15rem);
   --content-gutter: clamp(1rem, 3vw, 2.5rem);
 }
-.sidebar {
+.sidebar-drawer .MuiDrawer-paper {
   position: fixed;
   inset: 0 auto 0 0;
   z-index: 5;
   width: var(--sidebar-width);
   color: #dce5f4;
   background: linear-gradient(180deg, #1d3557, #16273f);
+  border-right: 0;
 }
 .brand {
   min-height: 4.5rem;
@@ -131,9 +132,24 @@
   height: 41px;
   padding: 0 10px;
   border-radius: 6px;
-  font-size: 13px;
   font-weight: 500;
   color: #c8d3e5;
+}
+.sidebar-link {
+  display: block;
+  width: 100%;
+  color: inherit;
+}
+.sidebar-link > .MuiListItemButton-root {
+  width: 100%;
+  box-sizing: border-box;
+}
+.nav-item .MuiListItemIcon-root {
+  min-width: 27px;
+  color: inherit;
+}
+.nav-item .MuiListItemText-primary {
+  font-size: inherit;
 }
 .nav-item svg {
   width: 17px;
@@ -152,13 +168,21 @@
 .nav-children {
   display: flex;
   flex-direction: column;
-  padding: 4px 0 9px 40px;
+  padding: 4px 0 9px 16px !important;
   gap: 3px;
 }
-.nav-children a {
-  color: #b6c4da;
-  font-size: 12px;
-  padding: 4px 0;
+.nav-child-item {
+  width: 100%;
+  min-height: 30px;
+  padding: 4px 0 4px 24px !important;
+  color: #b6c4da !important;
+}
+.nav-child-item .MuiListItemText-primary {
+  /* font-size: 0.8rem; */
+}
+.nav-child-item.active {
+  color: #fff !important;
+  font-weight: 700;
 }
 .topbar {
   position: fixed;
@@ -194,11 +218,8 @@
   background: #e5eaf4;
   font-size: 18px;
 }
-.mobile-toggle {
+.mobile-menu-button {
   display: none;
-  border: 0;
-  background: none;
-  color: #61708b;
 }
 .dashboard {
   margin-left: var(--sidebar-width);
@@ -303,16 +324,13 @@
   font-style: normal;
   font-size: 11px;
 }
-.stat-card--blue .stat-icon,
-.blue {
+.stat-card--blue .stat-icon {
   background: #4988f0;
 }
-.stat-card--green .stat-icon,
-.green {
+.stat-card--green .stat-icon {
   background: #45c3a0;
 }
-.stat-card--orange .stat-icon,
-.orange {
+.stat-card--orange .stat-icon {
   background: #ffad43;
 }
 .stat-card--purple .stat-icon {
@@ -330,26 +348,7 @@
 .stat-card--purple em {
   color: #8251dc;
 }
-.sparkline {
-  position: absolute;
-  bottom: -1px;
-  left: 35%;
-  width: 72%;
-  height: 24px;
-  border-top: 2px solid #5794f7;
-  border-radius: 50%;
-  transform: skewY(-7deg);
-  opacity: 0.95;
-}
-.stat-card--green .sparkline {
-  border-color: #4bc5a4;
-}
-.stat-card--orange .sparkline {
-  border-color: #ffae3e;
-}
-.stat-card--purple .sparkline {
-  border-color: #8655e5;
-}
+
 .middle-grid,
 .bottom-grid {
   display: grid;
@@ -392,38 +391,16 @@
   justify-content: space-around;
   min-height: 176px;
 }
-.donut {
-  width: 155px;
-  height: 155px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: conic-gradient(
-    #4786ef 0 38.5%,
-    #43bea0 38.5% 70.6%,
-    #ffb045 70.6% 88.9%,
-    #cad3e2 88.9%
-  );
-  position: relative;
+.highchart {
+  width: 100%;
 }
-.donut:after {
-  content: "";
-  position: absolute;
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
-  background: #fff;
+.highchart--donut {
+  width: 55%;
+  min-width: 165px;
 }
-.donut b {
-  z-index: 1;
-  text-align: center;
-  font-size: 20px;
-}
-.donut small {
-  display: block;
-  font-size: 11px;
-  color: #52617a;
-  font-weight: 500;
+.highchart--region,
+.highchart--trend {
+  min-height: 190px;
 }
 .legend {
   display: flex;
@@ -432,14 +409,12 @@
   min-width: 123px;
   font-size: 13px;
 }
-.legend > div,
-.region-list > div {
+.legend > div {
   display: flex;
   align-items: center;
   gap: 9px;
 }
-.legend b,
-.region-list b {
+.legend b {
   margin-left: auto;
   font-size: 13px;
 }
@@ -449,61 +424,6 @@
   height: 9px;
   border-radius: 50%;
   flex: 0 0 auto;
-}
-.yellow {
-  background: #ffbb70;
-}
-.gray {
-  background: #bcc8db;
-}
-.region-content {
-  display: flex;
-  min-height: 176px;
-}
-.fake-map {
-  position: relative;
-  flex: 1;
-  overflow: hidden;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #f5f8fc, #e8f0fb);
-  border: 1px solid #edf1f7;
-}
-.fake-map:before,
-.fake-map:after {
-  content: "";
-  position: absolute;
-  border: 1px solid #bed4f5;
-  border-radius: 45% 55% 52% 48%;
-  opacity: 0.7;
-}
-.fake-map:before {
-  inset: 12% 25% 7% 9%;
-  transform: rotate(21deg);
-}
-.fake-map:after {
-  inset: 18% 6% 12% 37%;
-  transform: rotate(-20deg);
-}
-.fake-map i {
-  position: absolute;
-  z-index: 1;
-  display: block;
-  border-radius: 50%;
-  background: #4387ef;
-  box-shadow: 0 0 0 11px rgba(67, 135, 239, 0.1);
-  transform: translate(-50%, -50%);
-}
-.region-list {
-  width: 204px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 1px 5px 1px 19px;
-}
-.region-list > div {
-  height: 30px;
-  border-bottom: 1px solid #e5eaf2;
-  font-size: 12px;
 }
 table {
   width: 100%;
@@ -542,78 +462,4 @@ td:nth-child(3) {
 .status--done {
   color: #2eae82;
   background: #e1f5ed;
-}
-.chart-legend {
-  display: flex;
-  gap: 15px;
-  font-size: 10px;
-}
-.chart-legend span:first-child {
-  color: #4387ef;
-}
-.chart-legend span:last-child {
-  color: #48bfa2;
-}
-.trend-chart {
-  display: flex;
-  height: 143px;
-  padding-top: 5px;
-}
-.y-labels {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-bottom: 25px;
-  color: #314057;
-  font-size: 9px;
-}
-.chart-area {
-  position: relative;
-  flex: 1;
-  margin-left: 9px;
-}
-.grid-lines {
-  position: absolute;
-  inset: 0 0 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.grid-lines i {
-  display: block;
-  border-top: 1px solid #e2e8f1;
-}
-.chart-area svg {
-  position: absolute;
-  inset: 0 0 25px;
-  width: 100%;
-  height: calc(100% - 25px);
-  overflow: visible;
-}
-.line-blue,
-.line-green {
-  fill: none;
-  stroke-width: 2;
-}
-.line-blue {
-  stroke: #4387ef;
-}
-.line-green {
-  stroke: #43bfa0;
-}
-.dot-blue {
-  fill: #4387ef;
-}
-.dot-green {
-  fill: #43bfa0;
-}
-.x-labels {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  color: #314057;
-  font-size: 9px;
 }
