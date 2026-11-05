@@ -1,0 +1,108 @@
+const complaints = [
+  {
+    number: "2026-1047",
+    receivedAt: "2026.10.27 14:32",
+    type: "악취",
+    reporter: "김민지",
+    location: "충청북도 제천시",
+    status: "처리중",
+    assignee: "이영수",
+    statusTone: "working",
+  },
+  {
+    number: "2026-1046",
+    receivedAt: "2026.10.27 13:20",
+    type: "대기오염",
+    reporter: "이준호",
+    location: "충청북도 제천시",
+    status: "접수",
+    assignee: "-",
+    statusTone: "waiting",
+  },
+  {
+    number: "2026-1045",
+    receivedAt: "2026.10.26 17:18",
+    type: "소음·진동",
+    reporter: "박지은",
+    location: "충청북도 제천시",
+    status: "완료",
+    assignee: "김나영",
+    statusTone: "done",
+  },
+  {
+    number: "2026-1044",
+    receivedAt: "2026.10.26 16:50",
+    type: "수질오염",
+    reporter: "최동혁",
+    location: "충청북도 제천시",
+    status: "지연",
+    assignee: "이영수",
+    statusTone: "delayed",
+  },
+  {
+    number: "2026-1043",
+    receivedAt: "2026.10.25 11:23",
+    type: "기타",
+    reporter: "정수빈",
+    location: "충청북도 제천시",
+    status: "완료",
+    assignee: "김나영",
+    statusTone: "done",
+  },
+  {
+    number: "2026-1042",
+    receivedAt: "2026.10.25 10:17",
+    type: "악취",
+    reporter: "한지민",
+    location: "충청북도 제천시",
+    status: "처리중",
+    assignee: "이영수",
+    statusTone: "working",
+  },
+  {
+    number: "2026-1041",
+    receivedAt: "2026.10.24 15:30",
+    type: "대기오염",
+    reporter: "이상훈",
+    location: "충청북도 제천시",
+    status: "완료",
+    assignee: "김나영",
+    statusTone: "done",
+  },
+  {
+    number: "2026-1040",
+    receivedAt: "2026.10.24 14:12",
+    type: "폐기물",
+    reporter: "김하늘",
+    location: "충청북도 제천시",
+    status: "접수",
+    assignee: "-",
+    statusTone: "waiting",
+  },
+];
+
+const complaintChart = {
+  total: 245,
+  types: [
+    { name: "악취", value: 28.6, color: "#4786ef" },
+    { name: "대기오염", value: 26.1, color: "#43bf91" },
+    { name: "수질오염", value: 20.4, color: "#ffad43" },
+    { name: "소음·진동", value: 14.3, color: "#8a59dc" },
+    { name: "기타", value: 10.6, color: "#bcc7d9" },
+  ],
+  regions: [
+    { name: "제천시", value: 68, percent: 27.8 },
+    { name: "단양군", value: 52, percent: 21.2 },
+    { name: "영월군", value: 45, percent: 18.4 },
+    { name: "충주시", value: 40, percent: 16.3 },
+    { name: "기타 지역", value: 40, percent: 16.3 },
+  ],
+};
+
+export const getComplaintList = () => ({
+  total: 245,
+  complaints,
+  pageSize: 10,
+});
+
+export const getComplaintChartData = () => complaintChart;

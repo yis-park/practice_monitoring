@@ -48,9 +48,13 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .middle-grid,
-  .bottom-grid {
+  .bottom-grid,
+  .complaint-summary-grid {
     grid-template-columns: 1fr;
   }
+  .complaint-filter { flex-wrap: wrap; }
+  .complaint-date { width: 100%; justify-content: center; padding: 5px; }
+  .complaint-search { min-width: 0; }
 }
 
 @media (max-width: 32.5rem) {
@@ -73,6 +77,14 @@
     flex-direction: column;
     gap: 12px;
   }
+  .complaint-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .complaint-heading h1 { font-size: 23px; }
+  .complaint-date-top { align-self: stretch; text-align: center; }
+  .status-tabs { justify-content: space-between; overflow-x: auto; }
+  .status-tabs button { min-width: 58px; padding: 8px 10px; }
+  .table-footer { min-width: 850px; }
+  .complaint-table-panel { overflow-x: auto; }
+  .complaint-donut-content, .region-summary { min-width: 560px; }
   .dashboard h1 {
     font-size: 23px;
   }
